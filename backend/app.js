@@ -1,9 +1,10 @@
-const app = require("./app");
-const dotenv = require("dotenv");
+const express = require("express");
+const app  = express();
+app.use(express.json());
 
-dotenv.config({path:"backend\config\config.env"})
+//route imports
+const product = require("./routes/productRoute");
 
-app.listen(4000,()=>{
+app.use("/api/vi",product)
 
-    console.log(`server is running on http://localhost${process.env.PORT}`);
-})
+module.exports = app
