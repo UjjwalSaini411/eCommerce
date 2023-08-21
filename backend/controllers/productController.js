@@ -1,6 +1,7 @@
 const Product = require("../models/productModel");
 const Errorhandler = require("../utils/errorhandler");
-const catchAsyncError = require("../middleware/catchAsyncError")
+const catchAsyncError = require("../middleware/catchAsyncError");
+const Apifeature = require("../utils/apifeature");
 
 //create product -- admin 
 exports.createProduct = catchAsyncError( async (req, res, next) => {
@@ -13,16 +14,19 @@ exports.createProduct = catchAsyncError( async (req, res, next) => {
 }
 )
 
-exports.getAllProducts = async (req, res) => {
-    const product = await Product.find()
+exports.getAllProducts = catchAsyncError(async (req, res) => {
+    
+    const apiFeature = new Apifeature(Product.find(),req.query).search();
+    const product = await apiFeature.query;
     res.status(200).json({
         message: "Success",
         product
     })
 }
+)
 
 //update product --admin
-exports.updateProduct = async (req, res) => {
+exports.updateProduct = catchAsyncError(async (req, res) => {
 
     let product = await Product.findById(req.params.id)
 
@@ -41,10 +45,11 @@ exports.updateProduct = async (req, res) => {
     })
 
 }
+)
 
 //delete a product
 
-exports.deleteProduct = async (req, res) => {
+exports.deleteProduct = catchAsyncError(async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
 
@@ -65,10 +70,10 @@ exports.deleteProduct = async (req, res) => {
             message: "An error occurred while deleting the product"
         });
     }
-};
+}
+)
 
-
-exports.getProductDetails = async (req,res,next) => {
+exports.getProductDetails = catchAsyncError(async (req,res,next) => {
     try {
         const product = await Product.findById(req.params.id)
 
@@ -85,6 +90,4 @@ exports.getProductDetails = async (req,res,next) => {
     } catch (error) {
         console.log(error)
     }
-
-   
-}
+})

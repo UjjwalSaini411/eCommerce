@@ -6,9 +6,6 @@ const connectDatabase = () => {
         .then(() => {
             console.log(`mongodb connected with server ${mongoose.connection.host}`);
         })
-        .catch((err) => {
-            console.log(err);
-        });
 };
 
 module.exports = connectDatabase;
