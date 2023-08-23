@@ -16,7 +16,10 @@ exports.createProduct = catchAsyncError( async (req, res, next) => {
 
 exports.getAllProducts = catchAsyncError(async (req, res) => {
     
-    const apiFeature = new Apifeature(Product.find(),req.query).search();
+    const apiFeature = new Apifeature(Product.find(),req.query)
+    .search()
+    .filter();
+    
     const product = await apiFeature.query;
     res.status(200).json({
         message: "Success",
