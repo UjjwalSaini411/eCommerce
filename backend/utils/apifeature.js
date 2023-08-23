@@ -33,6 +33,15 @@ class Apifeature{
         this.query =  this.query.find(JSON.parse(queryString));
         return this;
     }
+    pagination(resultPerPage){
+        const currentpage = Number(this.querystr.page) ||1;  // 50 10 
+
+        const skip = resultPerPage * (currentpage - 1);
+
+        this.query = this.query.limit(resultPerPage).skip(skip)
+
+        return this;
+    }
 }
 
 module.exports = Apifeature;
